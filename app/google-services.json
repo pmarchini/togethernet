@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "812983581239",
+    "firebase_url": "https://togethernet-8221b.firebaseio.com",
+    "project_id": "togethernet-8221b",
+    "storage_bucket": "togethernet-8221b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:812983581239:android:1c2bf2ca24cae87f",
+        "android_client_info": {
+          "package_name": "com.togethernet.togethernet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "812983581239-0tk2ssksvjm7qa6elvs06thc95h6oa32.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.togethernet.togethernet",
+            "certificate_hash": "6aee245ddf2f4983153fa4631aacc180ed9db67b"
+          }
+        },
+        {
+          "client_id": "812983581239-bsl6mljbkj8r1v09rkftgenf7vhblpug.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADAA7A6pb-8NnIAU3D4AZ5BPiTDSoCKXo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "812983581239-bsl6mljbkj8r1v09rkftgenf7vhblpug.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
