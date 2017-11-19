@@ -76,7 +76,7 @@ public class AvNetConnect {
             boolean exist = false;
             for (WifiConfiguration config : list ){
                 if(config.SSID != null && config.SSID.equals("\"" + net.get("wifi_ssid") + "\"")){
-                    //Se esiste già controllo che il BSSID coincide
+                    //Se esiste già controllo che il BSSID coincida
                     if(config.BSSID != null && config.BSSID.equals("\"" + net.get("wifi_bssid") + "\"")){
                         exist = true;
                     //Se non coincide BSSID la rete non esiste
