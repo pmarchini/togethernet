@@ -30,10 +30,12 @@ public class AvNetConnect {
             //TODO -> Aggiungere setting per connessione automatica, se non connetto butto fuori notifica di rete disponibile
             if(!AvNetselection(AvNets).isEmpty()) {
                 PreferenceManager prefManager = new PreferenceManager(context);
+                //Se è settata la connessione automatica connetto direttamente
                 if (prefManager.isAutomaticConnectionSetted()) {
                     BestAvNetConnect(AvNetselection(AvNets), context);
+                //In caso contrario mostro una notifica
                 } else {
-                    ConnectionNotificationHandler.buildAvConnectionNotification(context);
+                    selectNotification(AvNetselection(AvNets), context);
                 }
             }
             //Nessuna connessione disponibile, pulisco eventuali notifiche
