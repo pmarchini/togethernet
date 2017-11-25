@@ -24,6 +24,9 @@ import java.util.Map;
 import java.util.Objects;
 
 import com.togethernet.togethernet.GlobalApp.GlobalApp;
+import com.togethernet.togethernet.GlobalApp.Preferences.PreferenceManager;
+import com.togethernet.togethernet.NotificationSystem.ConnectionNotificationHandler;
+import com.togethernet.togethernet.NotificationSystem.NotificationHandler;
 import com.togethernet.togethernet.WifiJumper.AvNetConnect;
 
 /**
@@ -95,6 +98,7 @@ public class FirebaseDataHandler {
                         GlobalApp globalApp = (GlobalApp)context.getApplicationContext();
                         globalApp.SetAvNetsList(AvTogetherNets);
                         //Controllo le reti , se una TogetherNet è migliore aggiungo e connetto
+                        // Se non è impostata la connessione automatica butto fuori la notifica
                         AvNetConnect.WifiSeekAndConnect(AvTogetherNets, context);
                     }
                 }

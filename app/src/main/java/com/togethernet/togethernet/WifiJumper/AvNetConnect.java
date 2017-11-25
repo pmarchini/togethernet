@@ -8,6 +8,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
+import com.togethernet.togethernet.GlobalApp.Preferences.PreferenceManager;
 import com.togethernet.togethernet.NotificationSystem.ConnectionNotificationHandler;
 
 import java.util.ArrayList;
@@ -27,9 +28,17 @@ public class AvNetConnect {
     public static void WifiSeekAndConnect(ArrayList<HashMap<String, String>> AvNets, Context context){
         if (AvNets.size() > 0){
             //TODO -> Aggiungere setting per connessione automatica, se non connetto butto fuori notifica di rete disponibile
-            if(!AvNetselection(AvNets).isEmpty()){
-                BestAvNetConnect(AvNetselection(AvNets), context);
+            if(!AvNetselection(AvNets).isEmpty()) {
+                PreferenceManager prefManager = new PreferenceManager(context);
+                if (prefManager.isAutomaticConnectionSetted()) {
+                    BestAvNetConnect(AvNetselection(AvNets), context);
+                } else {
+                    ConnectionNotificationHandler.buildAvConnectionNotification(context);
+                }
             }
+            //Nessuna connessione disponibile, pulisco eventuali notifiche
+        }else {
+            ConnectionNotificationHandler.clearNotification(context, 002); //002 -> canale notifiche connessioni disponibili
         }
     }
 
@@ -111,6 +120,18 @@ public class AvNetConnect {
         }else{
             ConnectionNotificationHandler.buildConnectionEventNotificationProAdv(context, net.get("wifi_ssid")); //net.get("pubblicity"));
             Log.i("TogetherNet", "Nothing to do");
+        }
+    }
+
+    //Pubblica notifica in base alla situazione
+    public static void selectNotification(HashMap<String, String> net, Context context){
+        WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        if (wm.getConnectionInfo().getBSSID() != null){
+            if(!net.get("wifi_bssid").equals(wm.getConnectionInfo().getBSSID())){
+                ConnectionNotificationHandler.buildBestAvConnectionNotification(context, net.get("wifi_ssid"));
+            }
+        }else{
+            ConnectionNotificationHandler.buildAvConnectionNotification(context);
         }
     }
 }
