@@ -35,14 +35,14 @@ import com.togethernet.togethernet.WifiJumper.AvNetConnect;
 
 public class FirebaseDataHandler {
 
-    public ArrayList<HashMap<String , String>> AvTogetherNets;
+    public ArrayList<HashMap<String, String>> AvTogetherNets;
 
-    private  FirebaseDatabase Database;
+    private FirebaseDatabase Database;
     private DatabaseReference mDatabase;
     public int counter;
 
 
-    public FirebaseDataHandler(){
+    public FirebaseDataHandler() {
         AvTogetherNets = new ArrayList();
         // Prendo istanza del DB
         this.Database = FirebaseDatabase.getInstance();
@@ -58,16 +58,16 @@ public class FirebaseDataHandler {
 
         this.counter = 0;
 
-        for (final ScanResult scanElement : ApList){
+        for (final ScanResult scanElement : ApList) {
             //Creo il child per la query -> SELECT users WHERE wifi_bssid eq @BSSID (ABAP)
             Query query = this.mDatabase.child("APs").child(scanElement.BSSID);
             //Creo evento per leggere i valori
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists()) {
-                                if(dataSnapshot.getValue() != null){ // -> la rete fa parte di togetherNet
-                                    //Creo elemento della lista
+                    if (dataSnapshot.exists()) {
+                        if (dataSnapshot.getValue() != null) { // -> la rete fa parte di togetherNet
+                            //Creo elemento della lista
                             HashMap<String, String> AvTogetherNetElement = new HashMap<>();
                             //Aggiungo primo elemento -> chiave unica -> BSSID
                             AvTogetherNetElement.put("wifi_bssid", scanElement.BSSID);
@@ -81,21 +81,21 @@ public class FirebaseDataHandler {
                             AvTogetherNetElement.put("security", scanElement.capabilities);
                             //Pusho elemento nella lista
                             AvTogetherNets.add(AvTogetherNetElement);
-                        }else{
+                        } else {
 
                         }
                     }
                     counter += 1;
                     //Ho controllato tutte le reti, vado oltre
-                    if( counter == ApList.size()){
+                    if (counter == ApList.size()) {
                         Log.i("TogetherNet", "Scanned every net, time to go on, found nr : " + AvTogetherNets.size() + " TogetherNets");
                         Log.i("TogetherNet", "TogetherNets details :");
-                        for (HashMap<String, String> net : AvTogetherNets){
+                        for (HashMap<String, String> net : AvTogetherNets) {
                             Log.i("TogetherNet detail", net.get("wifi_ssid") + " / " + net.get("wifi_bssid"));
                         }
                         //Aggiungo le reti alla lista globale di reti disponibili
                         //TODO -> to be tested[altro controllo] -> Immagazzinamento reti disponibili
-                        GlobalApp globalApp = (GlobalApp)context.getApplicationContext();
+                        GlobalApp globalApp = (GlobalApp) context.getApplicationContext();
                         globalApp.SetAvNetsList(AvTogetherNets);
                         //Controllo le reti , se una TogetherNet è migliore aggiungo e connetto
                         // Se non è impostata la connessione automatica butto fuori la notifica
