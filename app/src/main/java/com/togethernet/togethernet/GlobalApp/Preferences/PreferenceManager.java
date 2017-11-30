@@ -34,7 +34,7 @@ public class PreferenceManager {
     }
     // TODO -> Implementare completamente le impostazioni dell'app da qui
 
-    public void setAtuomaticConnection(boolean setting) {
+    public void setAutomaticConnection(boolean setting) {
         editor.putBoolean(AUTOMATIC_CONNECTION, setting);
         editor.commit();
     }

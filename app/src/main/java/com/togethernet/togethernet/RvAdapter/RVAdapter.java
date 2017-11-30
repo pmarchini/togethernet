@@ -67,21 +67,26 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.AvNetsCard>{
     }
 
     @Override
-    public void onBindViewHolder(AvNetsCard card, int i) {
+    public void onBindViewHolder(AvNetsCard card, final int i) {
         card.netName.setText(AvNets.get(i).get("wifi_ssid"));
         card.netUserName.setText(AvNets.get(i).get("user"));
         card.netImage.setBackgroundResource(R.drawable.man);
         card.netButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Richiesta connessione
-                wifiUtilities.builAlertMessageGoWifi(activity);
+                //Vuoi connettere?
+                wifiUtilities.builAlertMessageGoWifi(activity, AvNets.get(i));
             }
         });
     }
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        if (this.AvNets.isEmpty()){
+            recyclerView.setBackgroundResource(R.drawable.sad_cloud);
+        }else{
+            recyclerView.setBackgroundResource(R.color.colorTransparent);
+        }
         super.onAttachedToRecyclerView(recyclerView);
     }
 }

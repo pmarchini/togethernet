@@ -8,6 +8,10 @@ import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
+import com.togethernet.togethernet.WifiJumper.AvNetConnect;
+
+import java.util.HashMap;
+
 /**
  * Created by pietr_000 on 03/11/2017.
  */
@@ -46,13 +50,14 @@ public class wifiUtilities {
         }
     }
 
-    public static void builAlertMessageGoWifi(final  Activity Act){
+    public static void builAlertMessageGoWifi(final Activity Act,final HashMap<String,String> net){
         final AlertDialog.Builder builder = new AlertDialog.Builder(Act);
         builder.setMessage("Stai per conneterti ad una rete TogetherNet, sei sicuro?")
                 .setCancelable(false)
                 .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, final int id) {
                         //TODO -> confirm connection
+                        AvNetConnect.BestAvNetConnect(net , Act.getApplicationContext());
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {

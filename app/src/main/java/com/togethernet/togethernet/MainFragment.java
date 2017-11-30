@@ -9,8 +9,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import com.togethernet.togethernet.GlobalApp.Preferences.PreferenceManager;
 
 
 /**
@@ -33,8 +36,9 @@ public class MainFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        final PreferenceManager prefManager = new PreferenceManager(this.getContext().getApplicationContext());
         Switch sw = (Switch) view.findViewById(R.id.automatSwitch);
-        sw.setChecked(true);
+        sw.setChecked(prefManager.isAutomaticConnectionSetted());
         //Nome connesione
         WifiManager wm = (WifiManager) this.getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (wm.isWifiEnabled()) {
@@ -46,6 +50,15 @@ public class MainFragment extends Fragment {
                 tx.setText("Connessione attuale : Nessuna connesione");
             }
         }
+        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked == false){
+                    prefManager.setAutomaticConnection(false);
+                }else{
+                    prefManager.setAutomaticConnection(true);
+                }
+            }
+        });
     }
 
 }

@@ -2,6 +2,7 @@ package com.togethernet.togethernet;
 
 import android.graphics.Point;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -24,6 +25,7 @@ public class AvNetsActivityScrolling extends AppCompatActivity {
 
     public RVAdapter adapter;
     protected RecyclerView rv;
+    protected ConstraintLayout cs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,15 +36,14 @@ public class AvNetsActivityScrolling extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        /*Setto NoElements Layout*/
+        cs = (ConstraintLayout)findViewById(R.id.NoElements);
         /*Setto RVAdapter ecc */
         rv = (RecyclerView)findViewById(R.id.rv);
         rv.setHasFixedSize(true);
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
-
-        adapter = new RVAdapter(this);
-        rv.setAdapter(adapter);
 
         //Altezza della card centrale
         Point size = new Point();
@@ -52,6 +53,19 @@ public class AvNetsActivityScrolling extends AppCompatActivity {
         CardView centralCard = (CardView)findViewById(R.id.centralCardiviewAvNets);
         int screenRemains =  screenHeight - toolbar.getLayoutParams().height - 250;
         centralCard.setMinimumHeight(screenRemains);
+
+        adapter = new RVAdapter(this);
+        rv.setAdapter(adapter);
+
+        if(adapter.AvNets.isEmpty()){
+            rv.setVisibility(View.GONE);
+            cs.setVisibility(View.VISIBLE);
+        }else{
+            rv.setVisibility(View.VISIBLE);
+            cs.setVisibility(View.GONE);
+        }
+
+
 
         //Scritta -> Comparsa/Scomparsa
         final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
@@ -86,6 +100,13 @@ public class AvNetsActivityScrolling extends AppCompatActivity {
                 GlobalApp globalApp = ( GlobalApp ) getApplication();
                 adapter.AvNets = globalApp.GetAvNetsList();
                 rv.setAdapter(adapter);
+                if(adapter.AvNets.isEmpty()){
+                    rv.setVisibility(View.GONE);
+                    cs.setVisibility(View.VISIBLE);
+                }else{
+                    rv.setVisibility(View.VISIBLE);
+                    cs.setVisibility(View.GONE);
+                }
                 Snackbar.make(view, "Refreshing AvNets", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }

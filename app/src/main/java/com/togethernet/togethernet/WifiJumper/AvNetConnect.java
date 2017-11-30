@@ -27,7 +27,7 @@ public class AvNetConnect {
 
     public static void WifiSeekAndConnect(ArrayList<HashMap<String, String>> AvNets, Context context){
         if (AvNets.size() > 0){
-            //TODO -> Aggiungere setting per connessione automatica, se non connetto butto fuori notifica di rete disponibile
+            //TODO -> Aggiungere setting per connessione automatica, se non connetto butto fuori notifica di rete disponibile -> To be tested
             if(!AvNetselection(AvNets).isEmpty()) {
                 PreferenceManager prefManager = new PreferenceManager(context);
                 //Se è settata la connessione automatica connetto direttamente
@@ -128,7 +128,7 @@ public class AvNetConnect {
     //Pubblica notifica in base alla situazione
     public static void selectNotification(HashMap<String, String> net, Context context){
         WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        if (wm.getConnectionInfo().getBSSID() != null){
+        if (wm.getConnectionInfo().getBSSID() != " " || wm.getConnectionInfo().getBSSID() != ""){
             if(!net.get("wifi_bssid").equals(wm.getConnectionInfo().getBSSID())){
                 ConnectionNotificationHandler.buildBestAvConnectionNotification(context, net.get("wifi_ssid"));
             }
