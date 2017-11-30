@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Nessuna Connesione"
+                android:text="Nessuna Connessione"
                 android:textAlignment="center"
                 android:textSize="30sp"
                 android:textStyle="bold"
