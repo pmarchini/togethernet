@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity
                     = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_map) {
             Intent MapIntent = new Intent( this, MapsActivity.class);
             startActivity(MapIntent);
 

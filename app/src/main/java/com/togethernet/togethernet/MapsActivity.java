@@ -3,6 +3,8 @@ package com.togethernet.togethernet;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -230,7 +232,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 locationResult.addOnCompleteListener(this, new OnCompleteListener<Location>() {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
-                        if (task.isSuccessful()) {
+                        if (task.isSuccessful() && task.getResult() != null ) {
                             // Set the map's camera position to the current location of the device.
                             mLastKnownLocation = task.getResult();
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
