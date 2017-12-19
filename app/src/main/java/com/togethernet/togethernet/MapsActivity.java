@@ -115,6 +115,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+
     }
 
     /**
@@ -156,9 +157,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             getNearestConnectionUI(markers, ((float) mLastKnownLocation.getLongitude()), (float) mLastKnownLocation.getLatitude());
             showCurrentPlace();
         }
-        if (item.getItemId() == R.id.option_update){
-            positionsHandler.addMarkersByPositions(mMap, getCenterUI() , getRangeUI(), markers);
-        }
         return true;
     }
 
@@ -186,12 +184,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public View getInfoContents(Marker marker) {
                 // Inflate the layouts for the info window, title and snippet.
                 View infoWindow = getLayoutInflater().inflate(R.layout.custom_info_contents,
-                        (FrameLayout) findViewById(R.id.map), false);
+                        ( FrameLayout ) findViewById(R.id.map), false);
 
-                TextView title = ((TextView) infoWindow.findViewById(R.id.title));
+                TextView title = (( TextView ) infoWindow.findViewById(R.id.title));
                 title.setText(marker.getTitle());
 
-                TextView snippet = ((TextView) infoWindow.findViewById(R.id.snippet));
+                TextView snippet = (( TextView ) infoWindow.findViewById(R.id.snippet));
                 snippet.setText(marker.getSnippet());
 
 
@@ -200,35 +198,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         });
 
-
-        /*markers.add(map.addMarker(new MarkerOptions()
-                .position(new LatLng(45.158288, 10.793470))
-                .title("Bar Italia TogetherNet")));
-
-        markers.add(map.addMarker(new MarkerOptions()
-                .position(new LatLng(45.158404, 10.795369))
-                .title("La drogheria TogetherNet")));
-
-
-        markers.add(map.addMarker(new MarkerOptions()
-                .position(new LatLng(45.161540, 10.798899))
-                .title("Caffè Modì TogetherNet")));
-
-        markers.add(map.addMarker(new MarkerOptions()
-                .position(new LatLng(45.157042, 10.791001))
-                .title("Coda di Cavallo TogetherNet")));
-
-        markers.add(map.addMarker(new MarkerOptions()
-                .position(new LatLng(45.157117, 10.791301))
-                .title("Robi Fini TogetherNet")));
-
-        markers.add(map.addMarker(new MarkerOptions()
-                .position(new LatLng(45.159476, 10.789840))
-                .title("Malaspina TogetherNet")));
-
-        markers.add(map.addMarker(new MarkerOptions()
-                .position(new LatLng(44.485909, 11.355065))
-                .title("Er Cozza TogetherNet")));*/
+        //Se la camera della mappa si ferma carico le reti nell'area visualizzata
+        //[K1008014]
+        //!Important
+        mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+            @Override
+            public void onCameraIdle() {
+                positionsHandler.addMarkersByPositions(mMap, getCenterUI() , getRangeUI(), markers);
+            }
+        });
 
 
         // Prompt the user for permission.

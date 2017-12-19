@@ -85,7 +85,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.AvNetsCard>{
         if (this.AvNets.isEmpty()){
             recyclerView.setBackgroundResource(R.drawable.sad_cloud);
         }else{
-            recyclerView.setBackgroundResource(R.color.colorTransparent);
+            recyclerView.setBackgroundResource(R.color.cardview_light_background);
         }
         super.onAttachedToRecyclerView(recyclerView);
     }
