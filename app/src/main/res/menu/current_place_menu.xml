@@ -14,6 +14,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/option_get_place"
-        android:title="Get Place"
+        android:title="Select Nearest"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/option_update"
+        android:title="Scan Area"
         app:showAsAction="always"/>
 </menu>

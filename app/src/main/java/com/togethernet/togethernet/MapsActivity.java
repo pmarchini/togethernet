@@ -33,8 +33,14 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.VisibleRegion;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.togethernet.togethernet.Firebase.MapPositionsHandler;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by Mala on 30/11/17.
@@ -44,6 +50,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private static final String TAG = MapsActivity.class.getSimpleName();
     private GoogleMap mMap;
+    private ArrayList<Marker> markers;
     private CameraPosition mCameraPosition;
 
 
@@ -76,6 +83,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private String[] mLikelyPlaceAttributions;
     private LatLng[] mLikelyPlaceLatLngs;
 
+    //Query a Firebase [K1008014]
+    private MapPositionsHandler positionsHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +95,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
         }
-
+        positionsHandler = new MapPositionsHandler();
+        //inst markers k1008014
+        markers = new ArrayList<>();
         // Retrieve the content view that renders the map.
         setContentView(R.layout.activity_maps);
 
@@ -138,10 +150,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.option_get_place) {
+            //TODO -> get[Range x , y schermo]
+            getMaxCordsUI();
+            //TODO -> trovo la connessione più vicina
+            getNearestConnectionUI(markers, ((float) mLastKnownLocation.getLongitude()), (float) mLastKnownLocation.getLatitude());
             showCurrentPlace();
+        }
+        if (item.getItemId() == R.id.option_update){
+            positionsHandler.addMarkersByPositions(mMap, getCenterUI() , getRangeUI(), markers);
         }
         return true;
     }
+
+
 
     /**
      * Manipulates the map when it's available.
@@ -179,33 +200,35 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         });
 
-        map.addMarker(new MarkerOptions()
+
+        /*markers.add(map.addMarker(new MarkerOptions()
                 .position(new LatLng(45.158288, 10.793470))
-                .title("Bar Italia TogetherNet"));
+                .title("Bar Italia TogetherNet")));
 
-        map.addMarker(new MarkerOptions()
+        markers.add(map.addMarker(new MarkerOptions()
                 .position(new LatLng(45.158404, 10.795369))
-                .title("La drogheria TogetherNet"));
+                .title("La drogheria TogetherNet")));
 
-        map.addMarker(new MarkerOptions()
+
+        markers.add(map.addMarker(new MarkerOptions()
                 .position(new LatLng(45.161540, 10.798899))
-                .title("Caffè Modì TogetherNet"));
+                .title("Caffè Modì TogetherNet")));
 
-        map.addMarker(new MarkerOptions()
+        markers.add(map.addMarker(new MarkerOptions()
                 .position(new LatLng(45.157042, 10.791001))
-                .title("Coda di Cavallo TogetherNet"));
+                .title("Coda di Cavallo TogetherNet")));
 
-        map.addMarker(new MarkerOptions()
+        markers.add(map.addMarker(new MarkerOptions()
                 .position(new LatLng(45.157117, 10.791301))
-                .title("Robi Fini TogetherNet"));
+                .title("Robi Fini TogetherNet")));
 
-        map.addMarker(new MarkerOptions()
+        markers.add(map.addMarker(new MarkerOptions()
                 .position(new LatLng(45.159476, 10.789840))
-                .title("Malaspina TogetherNet"));
+                .title("Malaspina TogetherNet")));
 
-        map.addMarker(new MarkerOptions()
+        markers.add(map.addMarker(new MarkerOptions()
                 .position(new LatLng(44.485909, 11.355065))
-                .title("Er Cozza TogetherNet"));
+                .title("Er Cozza TogetherNet")));*/
 
 
         // Prompt the user for permission.
@@ -426,6 +449,71 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
+        }
+    }
+
+    /*Return -> Range X , Y schermo  [K1008014]*/
+    private void getMaxCordsUI(){
+        if(mMap == null){
+            return;
+        }
+        VisibleRegion visibleRegion = mMap.getProjection().getVisibleRegion();
+        LatLng farLeft = visibleRegion.farLeft;
+        LatLng farRight = visibleRegion.farRight;
+        LatLng nearLeft = visibleRegion.nearLeft;
+        LatLng nearRight = visibleRegion.nearRight;
+        Log.i("Map", farLeft + " " + farRight);
+    }
+
+    /*Return -> Range X , Y schermo  [K1008014]*/
+    private LatLng getCenterUI(){
+        if(mMap == null){
+            return new LatLng(45,10);
+        }
+        VisibleRegion visibleRegion = mMap.getProjection().getVisibleRegion();
+        return visibleRegion.latLngBounds.getCenter();
+    }
+
+    private  double getRangeUI(){
+        if(mMap == null){
+            return 0;
+        }
+        VisibleRegion visibleRegion = mMap.getProjection().getVisibleRegion();
+        LatLng farRight = visibleRegion.farRight;
+        Location l1 = new Location("Dx");
+        l1.setLatitude(farRight.latitude);
+        l1.setLongitude(farRight.longitude);
+        LatLng farLeft = visibleRegion.farLeft;
+        Location l2 = new Location("Sx");
+        l2.setLongitude(farLeft.longitude);
+        l2.setLatitude(farLeft.latitude);
+        return (l2.distanceTo(l1))/1000;//In KM
+    }
+
+    //Poisizona il foxus della mappa sulla connessione più vicina
+    private void getNearestConnectionUI(final ArrayList<Marker> markers, final float x, final float y) {
+        Collections.sort(markers, new Comparator<Marker>() {
+
+            @Override
+            public int compare(Marker a, Marker b) {
+                Location location = new Location("Comparator->LocalPoint");
+                location.setLongitude(x);
+                location.setLatitude(y);
+                Location locationA = new Location("point A");
+                locationA.setLatitude(a.getPosition().latitude);
+                locationA.setLongitude(a.getPosition().longitude);
+                Location locationB = new Location("point B");
+                locationB.setLatitude(b.getPosition().latitude);
+                locationB.setLongitude(b.getPosition().longitude);
+                float distanceOne = location.distanceTo(locationA);
+                float distanceTwo = location.distanceTo(locationB);
+                return Float.compare(distanceOne, distanceTwo);
+            }
+        });
+        if(!markers.isEmpty()){
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                    new LatLng(markers.get(0).getPosition().latitude,
+                            markers.get(0).getPosition().longitude), DEFAULT_ZOOM));
         }
     }
 }
