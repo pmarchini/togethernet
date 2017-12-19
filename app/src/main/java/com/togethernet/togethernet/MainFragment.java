@@ -43,11 +43,11 @@ public class MainFragment extends Fragment {
         WifiManager wm = (WifiManager) this.getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (wm.isWifiEnabled()) {
             if (!wm.getConnectionInfo().getBSSID().isEmpty()) {
-                TextView tx = (TextView) view.findViewById(R.id.fragment_current_connection);
-                tx.setText("Connessione attuale : " + wm.getConnectionInfo().getSSID());
+                TextView tx = (TextView) view.findViewById(R.id.fragment_current_connection_2);
+                tx.setText( wm.getConnectionInfo().getSSID());
             } else {
-                TextView tx = (TextView) view.findViewById(R.id.fragment_current_connection);
-                tx.setText("Connessione attuale : Nessuna connesione");
+                TextView tx = (TextView) view.findViewById(R.id.fragment_current_connection_2);
+                tx.setText("Nessuna connesione");
             }
         }
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

@@ -7,6 +7,11 @@
     <string name="action_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_activity_maps">TogetherNet Wifi Map</string>
+    <string name="default_info_title">Default Location</string>
+    <string name="default_info_snippet">No places found, because location permission is disabled.</string>
+    <string name="option_get_place">Get place</string>
+    <string name="pick_place">Choose a place</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_av_nets_scrolling">AvNetsActivityScrolling</string>
     <string name="large_text">

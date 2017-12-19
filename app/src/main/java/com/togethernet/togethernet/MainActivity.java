@@ -30,6 +30,8 @@ import com.togethernet.togethernet.WifiJumper.WifiJumperAlarm;
 import com.togethernet.togethernet.WifiJumper.utilities.gpsUtilities;
 import com.togethernet.togethernet.WifiJumper.utilities.wifiUtilities;
 
+import java.util.Map;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -174,6 +176,8 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
         } else if (id == R.id.nav_slideshow) {
+            Intent MapIntent = new Intent( this, MapsActivity.class);
+            startActivity(MapIntent);
 
         } else if (id == R.id.nav_team) {
             //Visualizzo Frammento Contatti -> Team
