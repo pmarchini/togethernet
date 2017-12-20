@@ -52,7 +52,7 @@ public class MainFragment extends Fragment {
         }
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked == false){
+                if(!isChecked){
                     prefManager.setAutomaticConnection(false);
                 }else{
                     prefManager.setAutomaticConnection(true);

@@ -47,7 +47,7 @@ public class WifiScan {
         LocationManager position = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         boolean gps_status = position.isProviderEnabled(LocationManager.GPS_PROVIDER);
         //Se localizzazione o Wifi sono disabilitati avverto e svuoto le reti disponibili
-        if (wifi.isWifiEnabled() == false || !gps_status){
+        if (!wifi.isWifiEnabled() || !gps_status){
             //svuoto le reti disponibile
             GlobalApp globalApp = ( GlobalApp ) context.getApplicationContext();
             globalApp.GetAvNetsList().clear();
@@ -63,7 +63,7 @@ public class WifiScan {
             try{
                 this.SearchTogetherNets(context);
             }catch (InterruptedException exc){
-
+                Log.w("Interrupted exception", exc);
             }
         }
     }

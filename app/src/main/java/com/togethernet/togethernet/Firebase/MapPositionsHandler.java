@@ -89,7 +89,7 @@ public class MapPositionsHandler {
 
 
     //Ricerca a raggi concentrici incrementali
-    //seleziona la rete più vicina nel raggio di 1000km attualmente
+    //seleziona la rete più vicina nel raggio massimo di 1000km attualmente
     //TODO -> Decidere una distanza ragionevole
     public GeoQuery getGeoFirePositionsIncrementale(final GoogleMap map, final LatLng XY, double range , final ArrayList<Marker> array, final MapsActivity activity) {
 
@@ -124,9 +124,9 @@ public class MapPositionsHandler {
                         geoQuery.removeAllListeners();
                     }
                 }else{
-                    //Ho ricevuto dei vicini, mi muovo in quella direzione e blocco l'event listener
+                    //Ho ricevuto delle reti vicine, mi muovo in quella direzione e blocco l'eventListener
                     geoQuery.removeAllListeners();
-                    activity.moveCametaToNearest(array, XY.latitude, XY.longitude);
+                    activity.moveCameraToNearest(array, XY.latitude, XY.longitude);
                 }
             }
 

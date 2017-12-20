@@ -230,7 +230,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
          */
         try {
             if (mLocationPermissionGranted) {
-                Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
+                final Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
                 locationResult.addOnCompleteListener(this, new OnCompleteListener<Location>() {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
@@ -245,7 +245,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             Log.e(TAG, "Exception: %s", task.getException());
                             mMap.moveCamera(CameraUpdateFactory
                                     .newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
-                            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                            mMap.getUiSettings().setMyLocationButtonEnabled(true);
                         }
                     }
                 });
@@ -500,7 +500,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
     //Only move to nearest postion -> [K1008014]
-    public void moveCametaToNearest(final ArrayList<Marker> markers, final double x, final double y) {
+    public void moveCameraToNearest(final ArrayList<Marker> markers, final double x, final double y) {
         Collections.sort(markers, new Comparator<Marker>() {
 
             @Override
