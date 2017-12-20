@@ -1,5 +1,6 @@
 package com.togethernet.togethernet.Firebase;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.firebase.geofire.GeoFire;
@@ -17,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.togethernet.togethernet.MapsActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +31,8 @@ public class MapPositionsHandler {
 
     private FirebaseDatabase Database;
     private DatabaseReference mDatabase;
+    private DatabaseReference ApsRef;
+    private  GeoFire geoFire;
     public int counter;
 
 
@@ -37,19 +41,14 @@ public class MapPositionsHandler {
         this.Database = FirebaseDatabase.getInstance();
         // Referenzio il DB
         this.mDatabase = Database.getReferenceFromUrl("https://togethernet-8221b.firebaseio.com/");
+        ApsRef = Database.getReference("XY");
+        geoFire = new GeoFire(ApsRef);
     }
 
-    public void addMarkersByPositions(final GoogleMap map, LatLng XY, double range , final ArrayList<Marker> array) {
-        final DatabaseReference ApsRef = Database.getReference("XY");
-        GeoFire geoFire = new GeoFire(ApsRef);
-        /*geoFire.setLocation("La drogheria TogetherNet", new GeoLocation(45.158404, 10.795369));
-        geoFire.setLocation("Caffè Modì TogetherNet", new GeoLocation(45.161540, 10.798899));
-        geoFire.setLocation("Coda di Cavallo TogetherNet", new GeoLocation(45.157042, 10.791001));
-        geoFire.setLocation("Robi Fini TogetherNet", new GeoLocation(45.157117, 10.791301));
-        geoFire.setLocation("Malaspina TogetherNet", new GeoLocation(45.159476, 10.789840));
-        geoFire.setLocation("Er Cozza TogetherNet", new GeoLocation(44.485909, 11.355065));*/
+    public GeoQuery addMarkersByPositions(final GoogleMap map, LatLng XY, double range , final ArrayList<Marker> array) {
 
         GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(XY.latitude, XY.longitude), range);
+        double test = geoQuery.getRadius();
         geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
             public void onKeyEntered(String key, GeoLocation location) {
@@ -79,5 +78,63 @@ public class MapPositionsHandler {
                 System.err.println("There was an error with this query: " + error);
             }
         });
+        return geoQuery;
+    }
+    //Aggiungi Location -> "Tabella" XY
+    public void addGeoFireLocation(String Title, LatLng XY){
+        final DatabaseReference ApsRef = Database.getReference("XY");
+        GeoFire geoFire = new GeoFire(ApsRef);
+        geoFire.setLocation(Title, new GeoLocation(XY.latitude, XY.longitude));
+    }
+
+
+    //Ricerca a raggi concentrici incrementali
+    //seleziona la rete più vicina nel raggio di 1000km attualmente
+    //TODO -> Decidere una distanza ragionevole
+    public GeoQuery getGeoFirePositionsIncrementale(final GoogleMap map, final LatLng XY, double range , final ArrayList<Marker> array, final MapsActivity activity) {
+
+        final GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(XY.latitude, XY.longitude), range);
+        double test = geoQuery.getRadius();
+        geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
+            @Override
+            public void onKeyEntered(String key, GeoLocation location) {
+                System.out.println(String.format("Key %s entered the search area at [%f,%f]", key, location.latitude, location.longitude));
+                array.add(map.addMarker(new MarkerOptions()
+                        .position(new LatLng(location.latitude, location.longitude))
+                        .title(key)));
+            }
+
+            @Override
+            public void onKeyExited(String key) {
+                System.out.println(String.format("Key %s is no longer in the search area", key));
+            }
+
+            @Override
+            public void onKeyMoved(String key, GeoLocation location) {
+                System.out.println(String.format("Key %s moved within the search area to [%f,%f]", key, location.latitude, location.longitude));
+            }
+
+            @Override
+            public void onGeoQueryReady() {
+                System.out.println("All initial data has been loaded and events have been fired!");
+                if(array.isEmpty()){
+                    if (geoQuery.getRadius() < 1000) {
+                        geoQuery.setRadius(geoQuery.getRadius() + 2.5);
+                    }else{
+                        geoQuery.removeAllListeners();
+                    }
+                }else{
+                    //Ho ricevuto dei vicini, mi muovo in quella direzione e blocco l'event listener
+                    geoQuery.removeAllListeners();
+                    activity.moveCametaToNearest(array, XY.latitude, XY.longitude);
+                }
+            }
+
+            @Override
+            public void onGeoQueryError(DatabaseError error) {
+                System.err.println("There was an error with this query: " + error);
+            }
+        });
+        return geoQuery;
     }
 }

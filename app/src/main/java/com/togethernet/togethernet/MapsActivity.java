@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.firebase.geofire.GeoQuery;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.GeoDataClient;
@@ -468,8 +469,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         return (l2.distanceTo(l1))/1000;//In KM
     }
 
-    //Poisizona il foxus della mappa sulla connessione più vicina
-    private void getNearestConnectionUI(final ArrayList<Marker> markers, final float x, final float y) {
+    //Poisizona il focus della mappa sulla connessione più vicina
+    //Se la mappa non contiene Markers inizio a ricercare ingrandendo di 2.5 km la circonferenza di ricerca ogni ciclo
+    //[Essendo async probabilmente farà sempre qualche ricerca più del dovuto ma AMEN]
+    private void getNearestConnectionUI(final ArrayList<Marker> markers, final double x, final double y) {
         Collections.sort(markers, new Comparator<Marker>() {
 
             @Override
@@ -492,6 +495,42 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                     new LatLng(markers.get(0).getPosition().latitude,
                             markers.get(0).getPosition().longitude), DEFAULT_ZOOM));
+        }else if(markers.isEmpty()){
+            SearchForNearestConnectionUI(x, y);
         }
+    }
+    //Only move to nearest postion -> [K1008014]
+    public void moveCametaToNearest(final ArrayList<Marker> markers, final double x, final double y) {
+        Collections.sort(markers, new Comparator<Marker>() {
+
+            @Override
+            public int compare(Marker a, Marker b) {
+                Location location = new Location("Comparator->LocalPoint");
+                location.setLongitude(x);
+                location.setLatitude(y);
+                Location locationA = new Location("point A");
+                locationA.setLatitude(a.getPosition().latitude);
+                locationA.setLongitude(a.getPosition().longitude);
+                Location locationB = new Location("point B");
+                locationB.setLatitude(b.getPosition().latitude);
+                locationB.setLongitude(b.getPosition().longitude);
+                float distanceOne = location.distanceTo(locationA);
+                float distanceTwo = location.distanceTo(locationB);
+                return Float.compare(distanceOne, distanceTwo);
+            }
+        });
+
+        if (!markers.isEmpty()) {
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                    new LatLng(markers.get(0).getPosition().latitude,
+                            markers.get(0).getPosition().longitude), DEFAULT_ZOOM));
+        }
+    }
+
+    //Ricerca a raggio incrementale
+    private  void SearchForNearestConnectionUI(double x, double y){
+        MapPositionsHandler positionsHandler = new MapPositionsHandler();
+        double range = 2.5; //Km entro cui cerco
+        positionsHandler.getGeoFirePositionsIncrementale(this.mMap, new LatLng(y, x), range, this.markers, this);
     }
 }
