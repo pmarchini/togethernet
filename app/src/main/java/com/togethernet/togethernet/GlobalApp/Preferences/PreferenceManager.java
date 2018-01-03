@@ -34,7 +34,7 @@ public class PreferenceManager {
     }
     // TODO -> Implementare completamente le impostazioni dell'app da qui
 
-    public void setAtuomaticConnection(boolean setting) {
+    public void setAutomaticConnection(boolean setting) {
         editor.putBoolean(AUTOMATIC_CONNECTION, setting);
         editor.commit();
     }
@@ -47,4 +47,6 @@ public class PreferenceManager {
     public boolean isFirstTimeLaunch() {
         return pref.getBoolean(IS_FIRST_TIME_LAUNCH, true);
     }
+
+    public boolean isAutomaticConnectionSetted() { return pref.getBoolean(AUTOMATIC_CONNECTION, true); }
 }

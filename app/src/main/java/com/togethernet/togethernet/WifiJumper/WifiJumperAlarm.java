@@ -18,6 +18,7 @@ import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.widget.Toast;
 
+
 import com.togethernet.togethernet.WifiJumper.TogetherNetsRemover.NetRemover;
 
 public class WifiJumperAlarm extends BroadcastReceiver
@@ -53,7 +54,7 @@ public class WifiJumperAlarm extends BroadcastReceiver
             scanner.ScanNets(context);
         }
 
-        //Mostro uno toast se l'app è visibile
+        //Mostro un toast se l'app è visibile
         Toast.makeText(context, "Scanning!!!!", Toast.LENGTH_LONG).show();
 
         //Rilascio i locks

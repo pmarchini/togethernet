@@ -77,7 +77,7 @@ public class BloomFilter {
             }
             bf = data;
         } else {
-            bf = new byte[bytes];;
+            bf = new byte[bytes];
         }
 
 

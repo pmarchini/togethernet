@@ -30,6 +30,8 @@ import com.togethernet.togethernet.WifiJumper.WifiJumperAlarm;
 import com.togethernet.togethernet.WifiJumper.utilities.gpsUtilities;
 import com.togethernet.togethernet.WifiJumper.utilities.wifiUtilities;
 
+import java.util.Map;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -173,7 +175,9 @@ public class MainActivity extends AppCompatActivity
                     = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_map) {
+            Intent MapIntent = new Intent( this, MapsActivity.class);
+            startActivity(MapIntent);
 
         } else if (id == R.id.nav_team) {
             //Visualizzo Frammento Contatti -> Team
@@ -182,10 +186,6 @@ public class MainActivity extends AppCompatActivity
                     = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

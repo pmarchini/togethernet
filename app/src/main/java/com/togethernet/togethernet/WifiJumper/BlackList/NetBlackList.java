@@ -74,11 +74,7 @@ public class NetBlackList {
         //Se statisticamente contiene l'elemento controllo il db
         if(this.BloomFilter.contains(BSSID)){
             Cursor cursor =  this.db.rawQuery("SELECT * FROM blackList WHERE BSSID = '" + BSSID + "'", null);
-            if(cursor.getCount() == 0){
-                return false;
-            }else{
-                return true;
-            }
+            return cursor.getCount() == 0;
         }else{
             return false;
         }

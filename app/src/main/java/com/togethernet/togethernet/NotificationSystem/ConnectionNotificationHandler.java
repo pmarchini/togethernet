@@ -15,6 +15,9 @@ import com.togethernet.togethernet.R;
  * Created by pietr_000 on 06/11/2017.
  */
 
+//!IMPORTANTE -> Canale 001 -> Pubblicità connessione attuale
+    //        -> Canale 002 -> Notifica di una connessione migliore
+
 public class ConnectionNotificationHandler {
 
     public static void buildConnectionEventNotification(Context context, String SSID){
@@ -49,5 +52,41 @@ public class ConnectionNotificationHandler {
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         //Utilizzo un canale solo in modo sovrascrivere le notifiche
         mNotificationManager.notify(001, mBuilder.build());
+    }
+
+    //Notifica di avviso connessione disponibile
+    public static void buildBestAvConnectionNotification(Context context, String SSID){
+        //
+        //Get an instance of NotificationManager//
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.ic_menu_camera)
+                        .setContentTitle("TogetherNet : " + SSID)
+                        .setContentText("Una rete migliore è disponibile");
+
+        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        //Utilizzo un canale solo in modo sovrascrivere le notifiche
+        mNotificationManager.notify(002, mBuilder.build());
+    }
+
+    public static void buildAvConnectionNotification(Context context){
+        //
+        //Get an instance of NotificationManager//
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.ic_menu_camera)
+                        .setContentTitle("TogetherNet")
+                        .setContentText("Una rete è disponibile, connettiti subito");
+
+        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        //Utilizzo un canale solo in modo sovrascrivere le notifiche
+        mNotificationManager.notify(002, mBuilder.build());
+    }
+
+    public static void clearNotification(Context context, Integer IdCanale){
+        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        //Pulisco notifiche
+        mNotificationManager.cancel(IdCanale);
+
     }
 }

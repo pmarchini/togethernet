@@ -5,7 +5,6 @@ import android.content.Context;
 
 import com.togethernet.togethernet.WifiJumper.AvNetsList.AppAvNetsListGlobalizer.AvNetsGlobalList;
 import com.togethernet.togethernet.WifiJumper.BlackList.AppBlackListGlobalizer.GlobalBlackList;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -26,10 +25,10 @@ public class GlobalApp extends Application {
         BlackList = new GlobalBlackList();
     }*/
 
+
     public void  initGlobalBlackList(Context context){
         this.BlackList = new GlobalBlackList(context);
     }
-
 
 
     public GlobalBlackList getBlackList(){

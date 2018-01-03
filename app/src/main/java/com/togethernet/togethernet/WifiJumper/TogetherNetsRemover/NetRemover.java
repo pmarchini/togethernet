@@ -17,36 +17,43 @@ public class NetRemover {
         String tmp;
         String currentSSID;
         //Istanzio WifiManager
-        WifiManager wm = ( WifiManager ) context.getSystemService(Context.WIFI_SERVICE);
+        WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         //SSID connesso se esiste
-        if (wm.isWifiEnabled()){
+        if (wm.isWifiEnabled()) {
             currentSSID = wm.getConnectionInfo().getSSID();
-        }else{
+        } else {
             currentSSID = " ";
         }
         //Prendo lista delle connessioni disponibili
         List<WifiConfiguration> list = wm.getConfiguredNetworks();
         //Looppo su tutte le reti
-        for (WifiConfiguration i : list) {
-            tmp = i.toString().substring(i.toString().lastIndexOf("cname="),i.toString().indexOf(" ", i.toString().lastIndexOf("cname=")));
-            if ( tmp.contentEquals("cname=com.togethernet.togethernet") && !currentSSID.contentEquals(i.SSID)){
-                wm.removeNetwork(i.networkId);
+        if (list != null) {
+            for (WifiConfiguration i : list) {
+                try {
+                    tmp = i.toString().substring(i.toString().lastIndexOf("cname="), i.toString().indexOf(" ", i.toString().lastIndexOf("cname=")));
+                } catch (Exception e) {
+                    tmp = "null";
+                }
+                if (tmp.contentEquals("cname=com.togethernet.togethernet") && !currentSSID.contentEquals(i.SSID)) {
+                    wm.removeNetwork(i.networkId);
+                }
             }
         }
     }
+
     public static void removeNetsOnBoot(Context context) {
         String tmp;
         String currentSSID;
         //Istanzio WifiManager
-        WifiManager wm = ( WifiManager ) context.getSystemService(Context.WIFI_SERVICE);
+        WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         // accendo il wifi
         wm.setWifiEnabled(true);
         //Prendo lista delle connessioni disponibili
         List<WifiConfiguration> list = wm.getConfiguredNetworks();
         //Looppo su tutte le reti
         for (WifiConfiguration i : list) {
-            tmp = i.toString().substring(i.toString().lastIndexOf("cname="),i.toString().indexOf(" ", i.toString().lastIndexOf("cname=")));
-            if ( tmp.contentEquals("cname=com.togethernet.togethernet")){
+            tmp = i.toString().substring(i.toString().lastIndexOf("cname="), i.toString().indexOf(" ", i.toString().lastIndexOf("cname=")));
+            if (tmp.contentEquals("cname=com.togethernet.togethernet")) {
                 wm.removeNetwork(i.networkId);
             }
         }
