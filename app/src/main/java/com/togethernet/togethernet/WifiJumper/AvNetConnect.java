@@ -23,6 +23,7 @@ import java.util.Objects;
 
 public class AvNetConnect {
     //Delta precisione Livello AP
+    //Indica il Delta entro cui valuto una connessione migliore 
     protected static final int DELTA_LEVEL_AP = 0;
 
     public static void WifiSeekAndConnect(ArrayList<HashMap<String, String>> AvNets, Context context){
@@ -32,7 +33,7 @@ public class AvNetConnect {
                 PreferenceManager prefManager = new PreferenceManager(context);
                 //Se è settata la connessione automatica connetto direttamente
                 if (prefManager.isAutomaticConnectionSetted()) {
-                    BestAvNetConnect(AvNetselection(AvNets), context);
+                    ConnectToWifi(AvNetselection(AvNets), context);
                 //In caso contrario mostro una notifica
                 } else {
                     selectNotification(AvNetselection(AvNets), context);
@@ -50,7 +51,6 @@ public class AvNetConnect {
         int counter = 0;
         int best = -1;
 
-
         for (HashMap<String, String > net : AvNets){
             //Aggiungo un delta per evitare continui sbalzi tra reti simili
             if(Double.parseDouble(net.get("level")) < ( bestLevel + DELTA_LEVEL_AP) ){
@@ -65,7 +65,11 @@ public class AvNetConnect {
         }
     }
 
-    public static void BestAvNetConnect(HashMap<String, String> net, Context context){
+    //Metodo di connessione
+    //Genero le strutture necessarie a connettere
+    //Controllo se esiste già una rete con lo stesso nome e la sovrascrivo
+    //Infine connetto
+    public static void ConnectToWifi(HashMap<String, String> net, Context context){
         WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         if(!net.get("wifi_bssid").equals(wm.getConnectionInfo().getBSSID())){
             //Non sono già connesso al migliore AP

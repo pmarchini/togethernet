@@ -57,7 +57,7 @@ public class wifiUtilities {
                 .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, final int id) {
                         //TODO -> confirm connection
-                        AvNetConnect.BestAvNetConnect(net , Act.getApplicationContext());
+                        AvNetConnect.ConnectToWifi(net , Act.getApplicationContext());
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
