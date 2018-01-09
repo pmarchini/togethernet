@@ -5,6 +5,8 @@ import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.togethernet.togethernet.GlobalApp.Preferences.PreferenceManager;
+import com.togethernet.togethernet.RvAdapter.MainFragmentNetsAdapter;
+import com.togethernet.togethernet.RvAdapter.RVAdapter;
 
 
 /**
@@ -21,6 +25,8 @@ import com.togethernet.togethernet.GlobalApp.Preferences.PreferenceManager;
  */
 public class MainFragment extends Fragment {
 
+    public MainFragmentNetsAdapter adapter;
+    protected RecyclerView rv;
 
     public MainFragment() {
         // Required empty public constructor
@@ -59,6 +65,16 @@ public class MainFragment extends Fragment {
                 }
             }
         });
+        rv = ( RecyclerView ) getView().findViewById(R.id.AvNetsMain);
+        if(rv != null){
+            rv.setHasFixedSize(false);
+
+            LinearLayoutManager llm = new LinearLayoutManager(this.getContext());
+            rv.setLayoutManager(llm);
+
+            adapter = new MainFragmentNetsAdapter(this);
+            rv.setAdapter(adapter);
+        }
     }
 
 }
