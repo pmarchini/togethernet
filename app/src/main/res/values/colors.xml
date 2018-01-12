@@ -22,4 +22,6 @@
         <item>@color/dot_inactive_screen2</item>
         <item>@color/dot_inactive_screen3</item>
     </array>
+
+    <color name="black_overlay">#66000000</color>
 </resources>

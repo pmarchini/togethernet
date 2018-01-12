@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //TODO -> Sistemare cose doppie da LoadingActivity
         //Init GlobalBlackList
         GlobalApp globalApp = ( GlobalApp ) this.getApplication();
         globalApp.initGlobalBlackList(this);

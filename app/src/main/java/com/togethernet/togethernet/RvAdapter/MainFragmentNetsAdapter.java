@@ -22,32 +22,34 @@ import java.util.HashMap;
  * Created by pietr_000 on 09/01/2018.
  */
 
-public class MainFragmentNetsAdapter extends RecyclerView.Adapter<RVAdapter.AvNetsCard> {
+public class MainFragmentNetsAdapter extends RecyclerView.Adapter<MainFragmentNetsAdapter.DistanceNetCard> {
+
     public ArrayList<HashMap<String, String>> AvNets;
     protected Activity activity;
 
-    public static class AvNetsCard extends RecyclerView.ViewHolder {
+    public static class DistanceNetCard extends RecyclerView.ViewHolder {
 
 
         CardView cv;
         TextView netName;
         TextView netUserName;
         ImageView netImage;
+        TextView netDistance;
 
-        AvNetsCard(View itemView) {
+        DistanceNetCard(View itemView) {
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.cv);
             netName = (TextView)itemView.findViewById(R.id.netName);
             netUserName = (TextView) itemView.findViewById(R.id.netUserName);
             netImage = (ImageView)itemView.findViewById(R.id.netImage);
-            //netButton = (FloatingActionButton)itemView.findViewById(R.id.netButton);
+            netDistance = (TextView) itemView.findViewById(R.id.net_distance);
         }
     }
 
     public MainFragmentNetsAdapter( android.support.v4.app.Fragment fragment){
         GlobalApp globalApp = ( GlobalApp ) fragment.getActivity().getApplication();
         this.activity = activity;
-        this.AvNets = globalApp.GetAvNetsList();
+        this.AvNets = globalApp.getLocationNetsList().GlobalNetsLocation.getLocations();
     }
 
     @Override
@@ -55,20 +57,19 @@ public class MainFragmentNetsAdapter extends RecyclerView.Adapter<RVAdapter.AvNe
         return AvNets.size();
     }
 
-    public RVAdapter.AvNetsCard onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_reti_disponibili, viewGroup, false);
-        RVAdapter.AvNetsCard cards = new RVAdapter.AvNetsCard(v);
+    public MainFragmentNetsAdapter.DistanceNetCard onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_distanza_reti, viewGroup, false);
+        DistanceNetCard cards = new DistanceNetCard(v);
         return cards;
     }
 
+
     @Override
-    public void onBindViewHolder(RVAdapter.AvNetsCard card, final int i) {
-        card.netName.setText(AvNets.get(i).get("wifi_ssid"));
-        card.netUserName.setText(AvNets.get(i).get("user"));
+    public void onBindViewHolder(DistanceNetCard card, final int i) {
+        card.netName.setText(AvNets.get(i).get("Name"));
         card.netImage.setBackgroundResource(R.drawable.man);
         //Tolgo visibilità al bottone
-        //TODO -> creare nuovo sostituto card_reti_disponibili
-        card.netButton.setVisibility(View.INVISIBLE);
+        card.netDistance.setText(AvNets.get(i).get("Distance") + " m ");
     }
 
     @Override

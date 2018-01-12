@@ -23,7 +23,7 @@ import java.util.Objects;
 
 public class AvNetConnect {
     //Delta precisione Livello AP
-    //Indica il Delta entro cui valuto una connessione migliore 
+    //Indica il Delta entro cui valuto una connessione migliore
     protected static final int DELTA_LEVEL_AP = 0;
 
     public static void WifiSeekAndConnect(ArrayList<HashMap<String, String>> AvNets, Context context){
