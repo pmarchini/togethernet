@@ -25,7 +25,7 @@ public class ConnectionNotificationHandler {
         //Get an instance of NotificationManager//
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_logo)
+                        .setSmallIcon(R.drawable.ic_notification_logo)
                         .setContentTitle("TogetherNet : \"" + SSID + "\"")
                         .setContentText("Sei connesso ad una rete TogetherNet");
 
@@ -41,7 +41,7 @@ public class ConnectionNotificationHandler {
         //Get an instance of NotificationManager//
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_logo)
+                        .setSmallIcon(R.drawable.ic_notification_logo)
                         .setContentTitle("TogetherNet : \"" + SSID + "\"")
                         .setContentText("Sei connesso ad una rete TogetherNet")
                         .setStyle(new NotificationCompat.BigPictureStyle()
@@ -60,7 +60,7 @@ public class ConnectionNotificationHandler {
         //Get an instance of NotificationManager//
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_logo)
+                        .setSmallIcon(R.drawable.ic_notification_logo)
                         .setContentTitle("TogetherNet : " + SSID)
                         .setContentText("Una rete migliore è disponibile");
 
@@ -74,7 +74,7 @@ public class ConnectionNotificationHandler {
         //Get an instance of NotificationManager//
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_logo)
+                        .setSmallIcon(R.drawable.ic_notification_logo)
                         .setContentTitle("TogetherNet")
                         .setContentText("Una rete è disponibile, connettiti subito");
 

@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 
 import com.togethernet.togethernet.WifiJumper.TogetherNetsRemover.NetRemover;
+//I toast sono commentati
+//Utili a fini di debug
 
 public class WifiJumperAlarm extends BroadcastReceiver
 {
@@ -55,7 +57,7 @@ public class WifiJumperAlarm extends BroadcastReceiver
         }
 
         //Mostro un toast se l'app è visibile
-        Toast.makeText(context, "Scanning!!!!", Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "Scanning!!!!", Toast.LENGTH_LONG).show();
 
         //Rilascio i locks
         wifiLock.release();
@@ -75,7 +77,7 @@ public class WifiJumperAlarm extends BroadcastReceiver
         //am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 10 , pi); // Millisec * Second * Minute
         am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+ 50, pi);
 
-        Toast.makeText(context, "Allarme settato", Toast.LENGTH_LONG).show(); // For example
+        //Toast.makeText(context, "Allarme settato", Toast.LENGTH_LONG).show(); // For example
     }
 
     public void cancelAlarm(Context context)

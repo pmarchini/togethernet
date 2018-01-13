@@ -61,10 +61,17 @@ public class LoadingActivity extends AppCompatActivity {
             ChangeActivs();
         }
     };
+    private final Runnable mLoader = new Runnable() {
+        @Override
+        public void run() {
+          delayer(2000);
+        }
+    };
     private final Runnable mGetLocations = new Runnable() {
         @Override
         public void run() {
             getLocations();
+            goToMain(2000);
         }
     };
 
@@ -90,6 +97,7 @@ public class LoadingActivity extends AppCompatActivity {
         //Carico Le reti Vicine e faccio il primo scan
         //Init GlobalBlackList
         globalApp = ( GlobalApp ) this.getApplication();
+        globalApp.resetRequestedFunctions();
         globalApp.initGlobalBlackList(this);
         //GetBlackList
         globalApp.getBlackList();
@@ -116,8 +124,10 @@ public class LoadingActivity extends AppCompatActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        getValues(2000);
-        goToMain(3000);
+        //getValues(2000);
+        //Delayer -> aspetto che siano caricate le impostazioni poi faccio partire i runnable
+        delayer(2000);
+        //goToMain(3000);
     }
 
     /**
@@ -133,6 +143,15 @@ public class LoadingActivity extends AppCompatActivity {
     private  void getValues(int delayMillis){
         mHideHandler.removeCallbacks(mGetLocations);
         mHideHandler.postDelayed(mGetLocations, delayMillis);
+    }
+
+    private void delayer(int delayMillis){
+        if (!this.globalApp._GPS_REQUESTED || !this.globalApp._WIFI_REQUESTED){
+            mHideHandler.removeCallbacks(mLoader);
+            mHideHandler.postDelayed(mLoader, delayMillis);
+        }else{
+            getValues(2000);
+        }
     }
 
     private void getLocations(){

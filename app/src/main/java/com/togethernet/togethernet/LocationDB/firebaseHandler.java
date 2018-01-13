@@ -91,13 +91,13 @@ public class firebaseHandler {
                 public void onGeoQueryReady() {
                     System.out.println("All initial data has been loaded and events have been fired!");
                     globalApp.getLocationNetsList().GlobalNetsLocation.SetLocations(LocationList);
-                    Dialog.hide();
+                    Dialog.dismiss();
                 }
 
                 @Override
                 public void onGeoQueryError(DatabaseError error) {
                     System.err.println("There was an error with this query: " + error);
-                    Dialog.hide();
+                    Dialog.dismiss();
                 }
             });
         }else{

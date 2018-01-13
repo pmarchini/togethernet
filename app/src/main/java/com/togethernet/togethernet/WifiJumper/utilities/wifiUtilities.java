@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
+import com.togethernet.togethernet.GlobalApp.GlobalApp;
 import com.togethernet.togethernet.WifiJumper.AvNetConnect;
 
 import java.util.HashMap;
@@ -21,17 +22,20 @@ public class wifiUtilities {
     //Message alert -> richiesta di accensione del modulo wifi
     public static void buildAlertMessageNoWifi(final Activity Act) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(Act);
+        final GlobalApp globalApp = ( GlobalApp ) Act.getApplication();
         builder.setMessage("Per eseguire queste funzionalità togethernet necessità del tuo wifi, attivare in questo momento?")
                 .setCancelable(false)
                 .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, final int id) {
                         WifiManager wifi = (WifiManager) Act.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                         wifi.setWifiEnabled(true);
+                        globalApp._WIFI_REQUESTED = true;
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, final int id) {
                         dialog.cancel();
+                        globalApp._WIFI_REQUESTED = true;
                     }
                 });
         final AlertDialog alert = builder.create();
@@ -40,6 +44,7 @@ public class wifiUtilities {
 
     //Controllo stato Wifi, se disattivato chiedo consenso per attivare
     public static void WifiStateControl(Activity Act){
+        final GlobalApp globalApp = ( GlobalApp ) Act.getApplication();
         WifiManager wifi = (WifiManager) Act.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 
         if(!wifi.isWifiEnabled()){
@@ -47,6 +52,7 @@ public class wifiUtilities {
             buildAlertMessageNoWifi(Act);
         }else{
             Log.i("TogetherNet ", "Wifi Control completed -> Wifi is enabled");
+            globalApp._WIFI_REQUESTED = true;
         }
     }
 

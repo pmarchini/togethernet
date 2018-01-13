@@ -24,9 +24,9 @@ public class GlobalApp extends Application {
     //BlackList globale #BEG
     GlobalBlackList BlackList;
 
-    /*public GlobalApp(){
-        BlackList = new GlobalBlackList();
-    }*/
+    //Variabile controllo richiesta Wifi/Gps -> Ripropongo ad ogni richiesta
+    public boolean _WIFI_REQUESTED = false;
+    public boolean _GPS_REQUESTED = false;
 
     //NetList Globale
     public netsLocationGlobalList NetGlobalList;
@@ -69,5 +69,10 @@ public class GlobalApp extends Application {
         return this.NetGlobalList;
     }
     //Lista posizioni reti Vicine #END
+
+    public void resetRequestedFunctions(){
+        this._GPS_REQUESTED = false;
+        this._WIFI_REQUESTED = false;
+    }
 
 }
