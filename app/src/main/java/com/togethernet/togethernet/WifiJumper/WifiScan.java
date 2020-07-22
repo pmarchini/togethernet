@@ -52,7 +52,7 @@ public class WifiScan {
             GlobalApp globalApp = ( GlobalApp ) context.getApplicationContext();
             globalApp.GetAvNetsList().clear();
             //Avverto
-            Toast.makeText(context, "wifi or location is disabled ", Toast.LENGTH_LONG).show();
+            //Toast.makeText(context, "wifi or location is disabled ", Toast.LENGTH_LONG).show();
             //TODO -> Valutare se accendere dinamicamente o meno il wifi , per ora lo accendo solo se il gps è acceso
             if (gps_status){
                 wifi.setWifiEnabled(true);

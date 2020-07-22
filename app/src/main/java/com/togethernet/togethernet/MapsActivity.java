@@ -154,7 +154,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (item.getItemId() == R.id.option_get_place) {
             //TODO -> get[Range x , y schermo]
             getMaxCordsUI();
-            //TODO -> trovo la connessione più vicina
+            //Prendo rete più vicina a livello geografico
             getNearestConnectionUI(markers, ((float) mLastKnownLocation.getLongitude()), (float) mLastKnownLocation.getLatitude());
             showCurrentPlace();
         }

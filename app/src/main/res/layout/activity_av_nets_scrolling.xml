@@ -54,6 +54,6 @@
     <include
         android:id="@+id/include"
         layout="@layout/content_av_nets_activity_scrolling"
-        />
+        android:visibility="visible"/>
 
 </android.support.design.widget.CoordinatorLayout>

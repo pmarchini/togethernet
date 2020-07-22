@@ -1,6 +1,8 @@
 package com.togethernet.togethernet.Firebase;
 
 import android.content.Context;
+import android.content.Loader;
+import android.graphics.Point;
 import android.util.Log;
 
 import com.firebase.geofire.GeoFire;
@@ -18,10 +20,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.togethernet.togethernet.LocationUtilites.LocationUtils;
 import com.togethernet.togethernet.MapsActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Created by k1008014 on 19/12/2017.

@@ -3,6 +3,8 @@ package com.togethernet.togethernet.GlobalApp;
 import android.app.Application;
 import android.content.Context;
 
+import com.google.firebase.FirebaseApp;
+import com.togethernet.togethernet.LocationDB.netsLocationGlobalList;
 import com.togethernet.togethernet.WifiJumper.AvNetsList.AppAvNetsListGlobalizer.AvNetsGlobalList;
 import com.togethernet.togethernet.WifiJumper.BlackList.AppBlackListGlobalizer.GlobalBlackList;
 import java.util.ArrayList;
@@ -18,12 +20,16 @@ import java.util.HashMap;
 
 public class GlobalApp extends Application {
 
+
     //BlackList globale #BEG
     GlobalBlackList BlackList;
 
-    /*public GlobalApp(){
-        BlackList = new GlobalBlackList();
-    }*/
+    //Variabile controllo richiesta Wifi/Gps -> Ripropongo ad ogni richiesta
+    public boolean _WIFI_REQUESTED = false;
+    public boolean _GPS_REQUESTED = false;
+
+    //NetList Globale
+    public netsLocationGlobalList NetGlobalList;
 
 
     public void  initGlobalBlackList(Context context){
@@ -53,5 +59,20 @@ public class GlobalApp extends Application {
         this.AvNetsList.GlobalAvNets.ClearAndSetAvNetsList(NetsToSet);
     }
     //AvNetsList globale #END
+
+    //Lista posizioni reti Vicine #BEG
+    public void setGlobalNetsLocationList(){
+        this.NetGlobalList = new netsLocationGlobalList();
+    }
+
+    public netsLocationGlobalList getLocationNetsList(){
+        return this.NetGlobalList;
+    }
+    //Lista posizioni reti Vicine #END
+
+    public void resetRequestedFunctions(){
+        this._GPS_REQUESTED = false;
+        this._WIFI_REQUESTED = false;
+    }
 
 }

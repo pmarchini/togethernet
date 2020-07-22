@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Togethernet.iml" filepath="$PROJECT_DIR$/Togethernet.iml" />
       <module fileurl="file://C:\Users\k1008014\StudioProjects\togethernetandroid\Togethernet.iml" filepath="C:\Users\k1008014\StudioProjects\togethernetandroid\Togethernet.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/togethernetandroid.iml" filepath="$PROJECT_DIR$/togethernetandroid.iml" />
       <module fileurl="file://C:\Users\pietr_000\AndroidStudioProjects\Togethernet\togethernetandroid.iml" filepath="C:\Users\pietr_000\AndroidStudioProjects\Togethernet\togethernetandroid.iml" />
     </modules>
   </component>
